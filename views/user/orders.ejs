@@ -1,0 +1,77 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="row">
+    <div class="col-3">
+            <%- include("../partials/usernav") %> 
+    </div>
+    <div class="col-9">
+        <div class="row">
+            <div class="col bg-white card border-0 shadow-sm p-3">
+                <% if(orders.length) { %>
+                    <h1 class="fs-4 text-primary">My Orders</h1>
+                        <div class="all-orders">
+                            <% for(let order of orders) { %>
+                                <div class="order-summary mb-3">
+                                    <div class="card">
+                                        <div class="order-head bg-light p-2 border-bottom ">
+                                            <div class="row">
+                                                <div class="col-2">Order Placed</div>
+                                                <div class="col-2">Total Amount</div>
+                                                <div class="col-2">Details</div>
+                                                <div class="col-2">Delivery</div>
+                                                <div class="col-2">Status</div>
+                                                <div class="col-2">Order ID</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-2"><%= order.orderedOn.toDateString() %></div>
+                                                <div class="col-2">
+                                                    <span class="material-icons fs-6">
+                                                    currency_rupee
+                                                    </span><%= order.totalPrice.toLocaleString('en-IN') %>
+                                                </div>
+                                                <div class="col-2"><a href="/user/orders/<%= order._id %>">View Details</a></div>
+                                                <div class="col-2"><%= order.delivery.toDateString() %></div>
+                                                <div class="col-2 fs-6 fw-bold <%= order.status === "Delivered"?"text-success":"" %>" ><%= order.status %></div>
+                                                <div class="col-2 fs-5 fw-bold" ><%= JSON.stringify(order._id).substring(1, 11).toUpperCase() %></div>
+                                            </div>
+                                        </div>
+                                        <div class="order-body">
+                                            <% for(let item of order.products) { %> 
+                                                <div class="product">
+                                                    <div class="row p-3">
+                                                        <div class="col-2">
+                                                            <img style="max-height: 100px;" src="<%= item.productId.images[0].url %>" class="img-fluid rounded-start" alt="...">
+                                                        </div>
+                                                        <div class="col-8">
+                                                            <h5 class="card-title mb-0"><a href="/product/<%= item.productId._id %>" style="text-decoration:none;"><%= item.productId.name %></a> <span class="badge rounded-pill bg-light text-dark border"><%= item.productQty %></span>
+                                                            </h5>
+                                                            <span class="<%= item.productId.quantity>0?"text-success":"text-danger" %>"><%= item.productId.quantity>0?"In Stock":"Not Available" %></span>
+                                                            <p class="mb-1"><span class="material-icons fs-6">
+                                                                currency_rupee
+                                                                </span><%= item.productPrice.toLocaleString("en-IN") %></p>
+                                                            
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <a href="/product/<%= item.productId._id %>" class="btn btn-info mb-1 rounded-pill" style="width: 95px;" >Review</a href="">
+                                                                <% if(item.productId.quantity > 0) { %>
+                                                                    <form action="/buynow/<%= item.productId._id %>" method="post">
+                                                                        <button class="btn btn-primary rounded-pill" style="width: 95px;">Buy again</button>
+                                                                    </form>
+                                                                    <% } %>  
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr class="text-muted my-0 mx-3">
+                                            <% } %> 
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>  
+                        </div>
+                    <% } else { %>
+                        <h1 class="fs-4">You haven't made any purchase</h1>
+                    <% } %>   
+            </div>
+        </div>
+    </div>
+</div>

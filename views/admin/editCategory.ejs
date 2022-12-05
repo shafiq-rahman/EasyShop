@@ -1,0 +1,24 @@
+<% layout("layouts/boilerplate") %> 
+
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Category</h5>
+          <a href="/admin/category"><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></a>
+        </div>
+        <div class="modal-body">
+            <form action="/admin/category/<%= category._id %>?_method=PUT" class="needs-validation form-control border-0 p-0" method="post" novalidate >
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" name="category[name]" id="name" value="<%= category.name %>" required >
+                    <div class="valid-feedback">Valid.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <input type="text" class="form-control" name="category[description]" id="brand" value="<%= category.description %>" required>
+                </div>
+                <button class="btn btn-primary w-100 rounded-pill">Submit</button>
+            </form>
+        </div>
+      </div>
+    </div>

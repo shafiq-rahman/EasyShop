@@ -1,0 +1,28 @@
+<% layout("layouts/boilerplate") %>
+
+
+<div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Account</h5>
+        <a href="/user/dashboard"><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></a>
+      </div>
+      <div class="modal-body">
+          <form action="/user/editaccount?_method=PUT" class="needs-validation form-control border-0 p-0" method="post" novalidate >
+              <div class="mb-3">
+                  <label for="name" class="form-label">Name</label>
+                  <input type="text" class="form-control" name="name" id="name" value="<%= user.name %>" required >
+              </div>
+              <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" class="form-control" name="email" id="brand" value="<%= user.email %>" required>
+              </div>
+              <div class="mb-3">
+                  <label for="phone" class="form-label">Mobile</label>
+                  <input type="number" class="form-control" name="phone" id="phone" value="<%= user.phone %>" required>
+              </div>
+              <button class="btn btn-primary w-100 rounded-pill">Submit</button>
+          </form>
+      </div>
+    </div>
+  </div>

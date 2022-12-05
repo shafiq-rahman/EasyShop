@@ -1,0 +1,217 @@
+<% layout("layouts/boilerplate") %>
+
+<!-- Modal dialog box -->
+            <!-- Add Address -->
+            <div class="modal fade" id="addmodal" tabindex="-1" aria-labelledby="addmodallabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addmodallabel">New Address</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/user/address" method="post" class="needs-validation form-control border-0 p-0" id="addressForm" novalidate>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="firstname" class="form-label">First name *</label>
+                                        <input type="text" class="form-control" name="address[firstname]" id="firstname"
+                                            required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="lastname" class="form-label">Last name *</label>
+                                        <input type="text" class="form-control" name="address[lastname]" id="lastname"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="mobile" class="form-label">Mobile *</label>
+                                        <input type="number" class="form-control" name="address[mobile]" id="mobile" onKeyPress="if(this.value.length==10) return false;"
+                                            required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="phone" class="form-label">Phone (Optional)</label>
+                                        <input type="number" class="form-control" name="address[phone]" id="phone" onKeyPress="if(this.value.length==10) return false;">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3">
+                                        <label for="firstline" class="form-label">Flat, House no., Building, Company,
+                                            Apartment *</label>
+                                        <input type="text" class="form-control" name="address[firstline]" id="firstline"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3">
+                                        <label for="secondline" class="form-label">Area, Street, Sector, Village
+                                            *</label>
+                                        <input type="text" class="form-control" name="address[secondline]"
+                                            id="secondline" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3">
+                                        <label for="landmark" class="form-label">Landmark *</label>
+                                        <input type="text" class="form-control" name="address[landmark]" id="landmark"
+                                            required>
+                                    </div>
+
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="city" class="form-label">City *</label>
+                                        <input type="text" class="form-control" name="address[city]" id="city" required>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="pincode" class="form-label">Pincode *</label>
+                                        <input type="number" class="form-control" name="address[pincode]" id="pincode" min="600000" max="660000" 
+                                            required onKeyPress="if(this.value.length==6) return false;" >
+                                            <div class="invalid-feedback">Enter valid pincode</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3">
+                                        <label for="state" class="form-label">State *</label>
+                                        <select name="address[state]" id="state" class="form-select" required>
+                                            <option value="">Select State</option>
+                                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                            <option value="Assam">Assam</option>
+                                            <option value="Bihar">Bihar</option>
+                                            <option value="Chhattisgarh">Chhattisgarh</option>
+                                            <option value="Goa">Goa</option>
+                                            <option value="Gujarat">Gujarat</option>
+                                            <option value="Haryana">Haryana</option>
+                                            <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                            <option value="Jharkhand">Jharkhand</option>
+                                            <option value="Karnataka">Karnataka</option>
+                                            <option value="Kerala">Kerala</option>
+                                            <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                            <option value="Manipur">Manipur</option>
+                                            <option value="Meghalaya">Meghalaya</option>
+                                            <option value="Mizoram">Mizoram</option>
+                                            <option value="Nagaland">Nagaland</option>
+                                            <option value="Odisha">Odisha</option>
+                                            <option value="Punjab">Punjab</option>
+                                            <option value="Rajasthan">Rajasthan</option>
+                                            <option value="Sikkim">Sikkim</option>
+                                            <option value="Tamil Nadu">Tamil Nadu</option>
+                                            <option value="Telangana">Telangana</option>
+                                            <option value="Tripura">Tripura</option>
+                                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                            <option value="Uttarakhand">Uttarakhand</option>
+                                            <option value="Gairsain">Gairsain</option>
+                                            <option value="West Bengal">West Bengal</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary w-100 rounded-pill">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    <h1 class="fs-2 ms-3">Checkout</h1>
+    <div class="checkout">
+        <div class="row">
+            <div class="col-md-8 ">
+                <div class="bg-white rounded shadow-sm p-3 border">
+                    <% if(currentUser.addresses.length) { %> 
+                        <div class="oldaddress">
+                            <h1 class="fs-4">Choose Address</h1>
+                            <form action="/checkout/shipment" id="orderaddressform" method="post" class="needs-validation" novalidate>
+                                <% for(let address of addresses) { %>
+                                    <div class="mb-2">
+                                        <label for="<%= address._id %>">
+                                            <input type="radio" name="addressId" class="form-check-input" data-id="<%= address.pincode %>" id="<%= address._id %>" value="<%= address._id %>" required>
+                                            <span class="form-check-label ms-1"><span class="fw-bold"><%= address.firstname %> <%= address.lastname %></span>, <%= address.firstline %>, <%= address.secondline %>, <%= address.landmark %>, <%= address.city %> - <%= address.pincode %>, <%= address.state %>, Mobile: <%= address.mobile %><%= address.phone?(", Phone: " +  address.phone):""  %></span>
+                                        </label> 
+                                    </div>
+                                    <% } %> 
+                            </form>
+                        </div>
+                        
+                        
+                    <% } else { %>
+                        <p class="fs-5">There are no saved address</p>
+                    <% } %>  
+
+                    <button class="btn btn-primary rounded-pill mt-2 addbutton" data-bs-toggle="modal"
+                        data-bs-target="#addmodal">Add a new address</button>
+                    
+                </div>
+            </div>
+            <div class="col-md-4 ">
+                <div class="bg-white rounded shadow-sm border p-3">
+                    <h1 class="fs-4 mb-2">Order</h1>
+                    <hr class="text-muted m-0">
+                    <div class="order">
+                        <div>Total Items</div>
+                        <div>
+                            <%= cartDetails.totalItems %>
+                        </div>
+                    </div>
+                    <div class="order">
+                        <div>Subtotal</div>
+                        <div><span class="material-icons fs-6">
+                            currency_rupee
+                          </span><%= cartDetails.subtotal.toLocaleString("en-IN") %>
+                        </div>
+                    </div>
+                    <div class="order">
+                        <div>Expected Delivery</div>
+                        <div class="delivery"></div>
+                    </div>
+                    <button type="submit" form="orderaddressform" class="btn btn-primary rounded-pill w-100 mt-3">Proceed to
+                        Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="/javascripts/calculateDate.js"></script>    
+<script>
+    $('input:radio[name="addressId"]').change(
+    function(){
+        if ($(this).is(':checked')) {
+            console.log($(this).data('id'))
+            const toPincode = parseInt($(this).data('id'))
+    console.log(toPincode)
+    if (toPincode>=600000 && toPincode <= 660000) {
+        console.log(toPincode)
+        const fromPincode = 600054
+        const distance = Math.abs(fromPincode - toPincode)
+        var days,fees
+        if (distance >= 20000) {
+            days = 10
+            fees = 200
+        } else if (distance >= 15000) {
+            days = 8
+            fees = 160
+        } else if (distance >= 10000) {
+            fees = 140
+            days = 7
+        } else if (distance >= 5000) {
+            fees = 120
+            days = 6
+        } else if (distance >= 1000) {
+            fees = 100
+            days = 5
+        } else {
+            fees = 80
+            days = 3
+        }
+        const delivery = new Date(Date.now() + days * 24 * 60 * 60 * 1000)
+        document.querySelector(".delivery").textContent = delivery.toDateString()
+        const deliveryDetails = { date: delivery, fees }
+        console.log(deliveryDetails)
+    } else {
+        document.querySelector(".delivery").textContent = "Enter valid pincode"
+    }
+    }
+    });
+    
+</script>

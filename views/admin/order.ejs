@@ -1,0 +1,137 @@
+<% layout("layouts/boilerplate") %> 
+
+
+<div class="row">
+    <div class="col-3">
+            <%- include("../partials/adminnav") %> 
+    </div>
+    <div class="col-9" id="maincontent">
+        <!-- Update Modal -->
+        <!-- Modal dialog box  -->
+            <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal-dialog">
+                   <div class="modal-content">
+                   <div class="modal-header">
+                   <h5 class="modal-title" id="exampleModalLabel">Update Status</h5>
+                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                    <div class="modal-body">
+                        <form action="/admin/order" class="needs-validation form-control border-0 p-0" novalidate method="post" id="updateForm">
+                            <label for="status">Status</label>
+                            <select class="form-select d-inline ms-2 " name="status" id="status" style="width: fit-content;" required>
+                                <option value="">Choose</option>
+                                <option value="Ordered">Ordered</option>
+                                <option value="Shipped">Shipped</option>
+                                <option value="Out for delivery">Out for delivery</option>
+                                <option value="Delivered">Delivered</option>
+                            </select>
+                            <button class="d-block btn btn-primary ms-auto" >Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-3 bg-white shadow-sm">
+            <% if(orders.length || delivered.length) { %> 
+            <h1 class="fs-4">All Orders</h1>
+            <h2 class="fs-5 ">Total revenue: <span class="material-icons fs-6">
+                currency_rupee
+            </span><%= revenue.toLocaleString('en-IN') %> </h2>
+            <hr class="text-muted">
+            <h2 class="fs-5 ">Pending Shipments</h2>
+            <% if(orders.length) { %> 
+            <table class="w-100 table table-striped" >
+                <thead> 
+                    <th>Order date</th>
+                    <th>Customer</th>
+                    <th>Items</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody>
+                    <% for(let order of orders) { %>
+                        <tr>
+                            <td><%= order.orderedOn.toDateString() %></td>
+                            <td><%= order.customer.name %></td>
+                            <td><%= order.totalItems %></td>
+                            <td><span class="material-icons fs-6">
+                                currency_rupee
+                            </span><%= order.totalPrice.toLocaleString("en-IN") %></td>
+                            <td><%= order.status %></td>
+                            <td>
+                                <a class="btn text-secondary click" data-id="<%= order._id %>" name="check" id="updateClick">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                      </svg>
+                                </a>
+                                <a href="/admin/order/<%= order._id %>" class="btn text-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                      </svg>   
+                                </a>
+                                </td>
+                        </tr>
+                        <% } %>  
+                </tbody>
+            </table>
+            <% }else { %>
+                <h3 class="fs-6 ">There are no pending shipments</h3>
+                <% } %>  
+            <h2 class="fs-5 ">Delivered Shipments</h2>
+            <% if(delivered.length) { %>
+                <table class="w-100 table table-striped" >
+                    <thead> 
+                        <th>Order date</th>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        <% for(let order of delivered) { %>
+                            <tr>
+                                <td><%= order.orderedOn.toDateString() %></td>
+                                <td><%= order.customer.name %></td>
+                                <td><%= order.totalItems %></td>
+                                <td><span class="material-icons fs-6">
+                                    currency_rupee
+                                </span><%= order.totalPrice.toLocaleString("en-IN") %></td>
+                                <td><%= order.status %></td>
+                                <td><a class="btn btn-sm text-secondary click" data-id="<%= order._id %>" name="check" id="updateClick"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                  </svg></a>
+                                    <a href="/admin/order/<%= order._id %>" class="btn text-primary "><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                      </svg></a></td>
+                            </tr>
+                        <% } %>  
+                    </tbody>
+                </table>
+            <% } else { %>
+                    <h3 class="fs-6 ">There are no delivered shipments</h3>
+            <% } %>  
+            <% } else { %>
+                <h1 class="fs-4">There are no orders</h1>
+                <% } %>   
+        </div>        
+    </div>
+</div>
+
+<script>        
+    $(document).ready(function(){
+    $(".click").click(function(){
+        const link = "/admin/order/"
+        const orderId = $(this).data('id')
+        const actionLink = link.concat(orderId)
+        $("#updateForm").attr("action", actionLink);
+        $('#updateModal').modal('show');
+        console.log("agsa");
+    });
+});
+</script>

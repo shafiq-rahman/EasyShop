@@ -1,0 +1,125 @@
+<%- layout("layouts/boilerplate.ejs") %>
+
+<div class="category mb-3 bg-white p-3 shadow-sm">
+  <div class="row">
+    <% for(let category of categories) { %> 
+      <div class="col">
+        <a href="/category/<%= category.name %>" class="cat-card">
+          <div class="bg-primary rounded-circle p-3 my-1 me-1 shadow-sm d-inline-block" style="width: fit-content;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-phone" viewBox="0 0 16 16">
+              <%- category.svg %> 
+            </svg>
+          </div>
+          <span class="fs-5"><%= category.name %></span>
+        </a>
+      </div>
+      <% } %> 
+  </div>
+</div>
+
+
+<div id="carouselExampleControls" class="carousel slide" height="400" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active" height="400">
+        <img height="500" src="https://assets.pandaily.com/uploads/2020/06/online-shopping-apps-1600x832.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item" >
+        <img height="500" src="https://www.iotonlinestore.com/wp-content/uploads/2022/03/onlinestore-1.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item" >
+        <img height="500" src="https://thumbs.dreamstime.com/b/online-shopping-concept-smartphone-store-vector-illustration-178597706.jpg" class="d-block w-100" alt="...">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  
+  <div class="latest-products bg-white shadow-sm card border-0 mt-3 p-3">
+    <h1 class="fs-4">Latest products</h1>
+    <div class="card-group">
+      <div class=" d-flex justify-content-between">
+        <div class="col me-5 card border-0">
+          <a href="/product/625e8189f0f99993df479f38"><img style="height: 200px;" class="img-fluid" src="https://pbs.twimg.com/media/E7PHtcfXIAoYNkt?format=jpg&name=4096x4096" alt=""></a>
+        </div>
+        <div class="col me-5 card border-0">
+          <a href="/product/625e8189f0f99993df479f2c"><img style="height: 200px;" class="img-fluid" src="https://i0.wp.com/sparrowsnews.com/wp-content/uploads/2021/01/wp-1610181113214.jpg?resize=1024%2C416&ssl=1" alt=""></a>
+        </div>
+        <div class="col  card border-0">
+          <a href="/product/625e8189f0f99993df479f3b"><img style="height: 200px;" class="img-fluid" src="https://assets.indiadesire.com/images/oppo%20reno%206%20pro%205g%20flipkart%20sale.jpg" alt=""></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="samsung bg-white shadow-sm card border-0 mt-3 p-3">
+    <h1 class="fs-4">Shop Samsung</h1>
+    <div class="row">
+      <% for (let product of samsung) { %> 
+        <div class="col-md-2 mb-3">
+          <div class="card bg-light product-list">
+              <a href="/product/<%= product.id %>" class="product-card">
+              <img class="card-img-top p-2" src="<%= product.images[0].url %>" alt="Card image cap">
+              <div class="card-body pt-0">
+                <div class="rating text-center">
+                  <% for(let ind = 1; ind <= 5; ind++){ %> 
+                    <span class="fa fa-star <%= ind <= product.rating?"checked":"text-secondary" %>"></span>
+                    <% } %> 
+                </div>
+                  <h5 class="card-title fs-6 mb-0">
+                      <%= product.name %>
+                  </h5>
+                  <p class="card-text fs-5 mb-0"><span class="material-icons fs-5 m-0 p-0">
+                      currency_rupee
+                    </span>
+                      <%= product.price.toLocaleString("en-IN") %>
+                  </p>
+                  <form action="/addcart/<%= product.id %>" class="mt-1" method="post">
+                    <button class="btn btn-primary btn-sm rounded-pill w-100">Add to Cart</button>
+                  </form>
+              </div>
+          </a>
+          </div>
+      </div>
+        <% } %> 
+    </div>
+  </div>
+
+    
+  <div class="apple bg-white shadow-sm card border-0 mt-3 p-3">
+    <h1 class="fs-4">Shop Apple</h1>
+    <div class="row">
+      <% for (let product of apple) { %> 
+        <div class="col-md-2 mb-3">
+          <div class="card bg-light product-list h-100">
+              <a href="/product/<%= product.id %>" class="product-card">
+              <img class="card-img-top p-2" src="<%= product.images[0].url %>" alt="Card image cap">
+              <div class="card-body pt-0">
+                <div class="rating text-center">
+                  <% for(let ind = 1; ind <= 5; ind++){ %> 
+                    <span class="fa fa-star <%= ind <= product.rating?"checked":"text-secondary" %>"></span>
+                    <% } %> 
+                </div>
+                  <h5 class="card-title fs-6 mb-0">
+                      <%= product.name %>
+                  </h5>
+                  <p class="card-text fs-5 mb-0"><span class="material-icons fs-5 m-0 p-0">
+                      currency_rupee
+                    </span>
+                      <%= product.price.toLocaleString("en-IN") %>
+                  </p>
+                  <form action="/addcart/<%= product.id %>" class="mt-1" method="post">
+                    <button class="btn btn-primary btn-sm rounded-pill w-100">Add to Cart</button>
+                  </form>
+              </div>
+          </a>
+          </div>
+      </div>
+        <% } %> 
+    </div>
+  </div>

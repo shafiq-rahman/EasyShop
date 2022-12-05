@@ -1,0 +1,76 @@
+<% layout("layouts/boilerplate") %> 
+
+<!-- Edit Modal -->
+    <!-- Modal dialog box  -->
+        <div class="modal-dialog mt-0">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+              <a href="/admin/products"><button type="button" class="btn-close" aria-label="Close"></button></a>
+            </div>
+            <div class="modal-body">
+                <form action="/admin/products/<%= product._id %>?_method=PUT" class="needs-validation form-control border-0 p-0" method="POST" novalidate >
+                    <div class="mb-2">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" name="product[name]" id="name" value="<%= product.name %>" required>
+                        <div class="valid-feedback">Valid.</div>
+                    </div>
+                    <div class="mb-2">
+                        <label for="category" class="form-label">Category</label>
+                        <select name="product[category]" id="category" class="form-select">
+                            <% for(let category of categoryList) { %> 
+                                <option value="<%= category._id %>"><%= category.name %></option>
+                                <% } %> 
+                        </select>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label for="brand" class="form-label">Brand</label>
+                        <input type="text" class="form-control" name="product[brand]" id="brand" value="<%= product.brand %>" required>
+                        </div>
+                        <div class="col">
+                            <label for="model" class="form-label">Model</label>
+                        <input type="text" class="form-control" name="product[model]" id="model" value="<%= product.model %>" required>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label for="ram" class="form-label">RAM</label>
+                        <input type="number" class="form-control" name="product[ram]" id="ram" value="<%= product.ram %>" required>
+                        </div>
+                        <div class="col">
+                            <label for="storage" class="form-label">Storage</label>
+                        <input type="number" class="form-control" name="product[storage]" id="storage" value="<%= product.storage %>" required>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label for="processor" class="form-label">Processor</label>
+                            <input type="number" class="form-control" name="product[processor]" id="processor" value="<%= product.processor %>" step="any" required>
+                        </div>
+                        <div class="col">
+                            <label for="display" class="form-label">Display</label>
+                        <input type="number" class="form-control" name="product[display]" id="display" value="<%= product.display %>" step="any" required>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="number" class="form-control" name="product[price]" id="price" min="1" value="<%= product.price %>" required>
+                    </div>
+                    <div class="mb-2">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" name="product[quantity]" id="quantity" min="0" max="250" value="<%= product.quantity %>" required>
+                    </div>
+                    <div class="mb-2">
+                        <label for="images" class="form-label">Image URL</label>
+                        <input type="text" class="form-control" name="product[images]" id="images" value="<%= product.images[0].url %>" required>
+                    </div>
+                    <div class="mb-2">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea name="product[description]" id="description" class="form-control" cols="30" rows="2" maxlength="230" required><%= product.description %></textarea>
+                    </div>
+                    <button class="btn btn-primary w-100 rounded-pill">Submit</button>
+                </form>
+            </div>
+          </div>
+        </div>

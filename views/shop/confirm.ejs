@@ -1,0 +1,33 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="row">
+    <div class="col-6 offset-3 shadow-sm bg-white">
+        <div class="card border-0 p-3">
+            <h1 class="fs-6">Hey <span class="fw-bold"><%= name %></span>,</h1>
+            <h2 class="fs-4 text-primary">Your order is Confirmed</h2>
+            <p class="mb-0">Thank you for shopping with us!<br>We have sent an confirmation email.</p>   
+            <p class="fs-5 my-1">Order: <span class="fw-bold"><%= ordernum %></span></p>
+            
+            <hr class="text-muted mt-0 mb-2">
+            <div class="col-12">
+                <div class="order">
+                    <div class="col-4 order">
+                        <div class="row order">
+                            <div>Total Items</div>
+                            <div class="fw-bold">Total</div>
+                        </div>
+                        <div class="row order">
+                            <div><%= order.totalItems %> </div>
+                            <div class="fw-bold"><span class="material-icons fs-6">
+                                currency_rupee
+                            </span><%= order.totalPrice.toLocaleString("en-IN") %></div>
+                        </div>
+                    </div>
+                    <a href="/user/orders" class="btn btn-primary rounded-pill d-inline" style="width: fit-content;height: fit-content;">View Order</a>
+                  </div>
+            </div>
+            
+        </div>
+        
+    </div>
+</div>

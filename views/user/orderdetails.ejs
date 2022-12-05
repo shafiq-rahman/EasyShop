@@ -1,0 +1,79 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="row">
+    <div class="col-10 offset-1 card border-0 shadow-sm p-3">
+        <h1 class="fs-3 text-primary">Order Details</h1>
+        <p class="mb-0">Ordered on <%= order.orderedOn.toDateString() %></p>
+        <div class="d-flex flex-row">
+            <span class="">Delivery: <span class="fw-bold"><%= order.delivery.toDateString() %></span></span>
+            <span class="ms-auto fs-5 fw-bold">Order ID: <%= JSON.stringify(order._id).substring(1, 11).toUpperCase() %></span>
+        </div>
+            
+            <div class="card mt-2">
+                <div class="row p-2">
+                    <div class="col-3">
+                        <h5 class="fs-6 fw-bold">Shipping Address</h5>
+                        <p class="mb-0"><%= order.address.firstname %> <%= order.address.lastname %></p> 
+                        <p class="mb-0">Mobile: <%= order.address.mobile %></p>
+                        <p class="mb-0"><%= order.address.phone?("Phone: " +  order.address.phone):""  %></p>
+                        <p class="mb-0"><%= order.address.firstline %></p> 
+                        <p class="mb-0"><%= order.address.secondline %></p> 
+                        <p class="mb-0"><%= order.address.landmark %></p> 
+                        <p class="mb-0"><%= order.address.city %> - <%= order.address.pincode %></p> 
+                        <p class="mb-0"><%= order.address.state %></p> 
+                    </div>
+                    <div class="col-3">
+                        <h5 class="fs-6 fw-bold">Billing Address</h5>
+                        <p class="mb-0"><%= order.payment.fullname %></p> 
+                        <p class="mb-0"><%= order.payment.address %></p> 
+                        <p class="mb-0"><%= order.payment.city %></p> 
+                        <p class="mb-0"><%= order.payment.email %></p>                         
+                    </div>
+                    <div class="col-3">
+                        <h5 class="fs-6 fw-bold">Payment Method</h5>
+                        <p class="mb-0">Name on card: <%= order.payment.nameoncard %></p> 
+                        <p class="mb-0">**** <%= order.payment.cardnumber.slice(-4) %></p> 
+                    </div>
+                    <div class="col-3">
+                        <h5 class="fs-6 fw-bold">Order Summary</h5>
+                        <% for(let object of order.products) { %>
+                            <div class="order">
+                                <div><%= object.productId.name %>(<%= object.productQty %>) </div>
+                                <div><%= object.productPrice.toLocaleString("en-IN", {
+                                    style: 'currency',
+                                    currency: 'INR'
+                                }) %></div>
+                            </div>
+                            <% } %>  
+                        <hr class="text-muted my-1">
+                        <div class="order">
+                            <div>Total Items</div>
+                            <div><%= order.totalItems %></div>
+                        </div>
+                        <div class="order">
+                            <div>Subtotal</div>
+                            <div><%= (order.totalPrice - order.shipping).toLocaleString("en-IN", {
+                                style: 'currency',
+                                currency: 'INR'
+                            }) %></div>
+                        </div>
+                        <div class="order">
+                            <div>Delivery Fee</div>
+                            <div class="<%= order.shipping == 0?"text-success fw-bold":"" %>"><%= order.shipping == 0?"FREE":order.shipping.toLocaleString("en-IN", {
+                                style: 'currency',
+                                currency: 'INR'
+                            }) %></div>
+                        </div>
+                        <div class="order fw-bold">
+                            <div>Grand Total</div>
+                            <div><%= order.totalPrice.toLocaleString("en-IN", {
+                                style: 'currency',
+                                currency: 'INR'
+                            }) %></div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+    </div>
+</div>

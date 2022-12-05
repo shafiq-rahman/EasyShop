@@ -1,0 +1,81 @@
+<% layout("layouts/boilerplate") %>
+
+<% if(cartItems) { %>
+  <div class="cart">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="bg-white rounded shadow-sm p-3">
+          <h1 class="mb-2 fs-4">Shopping cart</h1>
+          <hr class="text-muted m-0">
+            <% for(product of cartItems) { %> 
+              <div class="row mb-2">
+                <div class="col-4 col-lg-3 p-2">
+                  <img style="max-height: 200px;" src="<%= product.images[0].url %>" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-8 col-lg-9">
+                  <div class="card-body p-1">
+                    <div class="row">
+                      <div class="col-9">
+                        <h5 class="card-title mb-0"><a href="/product/<%= product.productId %>" style="text-decoration:none;"><%= product.name %> </a></h5>
+                        <span class="text-success thick">In Stock</span>
+                        <p class="mb-0 text-muted">Fulfilled by EasyShop</p>
+                        <p class="mt-1 mb-0"><span class="material-icons">
+                          verified_user
+                        </span><span class="align-top fw-bold mb-0">Genuine Product</span></p>
+                        <div class="quantity mt-5">
+                          <form action="/addCart/change/<%= product.productId %>?_method=PUT" method="post" class="d-inline mb-0">
+                            <span class="text-muted ">Quantity</span>
+                            <select name="productQty" id="productQty" class="form-select d-inline rounded-pill d-inline" onchange="this.form.submit()" style="width: fit-content;">
+                              <% for(let index = 1;index <= (product.productQty>=5?product.productQty:5) ;index++) { %> 
+                                <option value="<%= index %>" <%= index == product.productQty?"selected":"" %> ><%= index %></option>
+                              <% } %> 
+                            </select>
+                          </form>
+                          <div class="ms-2 vr bg-dark"></div>
+                            <a href="/checkout/cart/<%= product.productId %>" class="text-danger d-inline ms-2" style="text-decoration: none;">Remove</a>
+                        </div>
+                      </div>
+                      <div class="col-3 d-flex">
+                        <h4 class="text-primary ms-auto"><span class="material-icons fs-5">
+                            currency_rupee
+                          </span><%= product.price.toLocaleString("en-IN") %></h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="text-muted m-0">
+            <% } %> 
+          </div>
+  
+        </div>
+        <div class="col-md-4" style="height: fit-content;">
+          <div class="bg-white rounded shadow-sm p-3">
+            <h1 class="fs-4 mb-2">Order</h1>
+            <hr class="text-muted m-0">
+              <div class="order">
+                <div>Total Items</div>
+                <div><%= cartDetails.totalItems %> </div>
+              </div>
+              <div class="order">
+                <div>Subtotal</div>
+                <div><span class="material-icons fs-6">
+                  currency_rupee
+                </span><%= cartDetails.subtotal.toLocaleString("en-IN") %></div>
+              </div>
+              <a href="/checkout/shipment"><button class="btn btn-primary rounded-pill w-100 mt-3">Checkout</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% }else { %>
+    <div class="row ">
+      <div class="col  d-flex flex-column align-items-center justify-content-center text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-cart text-secondary" viewBox="0 0 16 16">
+          <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </svg>
+        <h1 class="fs-3 mt-3">Your cart is Empty</h1>
+        <p>Continue shopping to add items to your cart</p>
+      </div>
+  <% } %>   
+  

@@ -1,0 +1,70 @@
+.adminnav {
+    text-decoration: none;
+    color: black;
+}
+
+.product {
+    display: inline;
+}
+
+.order {
+    display: flex;
+    justify-content: space-between;
+}
+
+.checked {
+    color: #fdcc0d;
+}
+
+.cat-card {
+    text-decoration: none;
+    color: black;
+}
+
+.cat-card span:hover{
+    color: #0d6efd;
+}
+.cat-card:hover{
+    text-decoration: none;
+    color: black;
+}
+
+.product-card {
+    text-decoration: none;
+    color: black;
+    
+}
+
+.product-card:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.product-list:hover {
+    border: 1px solid #0d6efd;
+}
+
+.out {
+    opacity: 0.5;
+}
+
+.admin-link {
+    text-decoration: none;
+    color: black;
+}
+
+.admin-link:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.form-control.is-invalid, .form-select.is-invalid , .was-validated .form-control:invalid, .was-validated .form-select:invalid {
+    background-image: none !important;
+    padding-right: 0.75em;
+}
+
+.form-control.is-valid,.form-select.is-valid, .was-validated .form-control:valid, .was-validated .form-select:valid {
+    background-image: none !important;
+    color: black;
+    padding-right: 0.75em;
+}

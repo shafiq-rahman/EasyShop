@@ -1,0 +1,105 @@
+<% layout("layouts/boilerplate") %>
+
+    <!-- Modal dialog box -->
+    <!-- Edit Address -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addmodallabel">Edit Address</h5>
+                <a href="/user/address"><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></a>
+            </div>
+            <div class="modal-body">
+                <form action="/user/address/<%= address._id %>?_method=PUT" method="post" class="needs-validation" id="addressForm" novalidate>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="firstname" class="form-label">First name *</label>
+                            <input type="text" class="form-control" name="address[firstname]" id="firstname" value="<%= address.firstname %>" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastname" class="form-label">Last name *</label>
+                            <input type="text" class="form-control" name="address[lastname]" id="lastname" value="<%= address.lastname %>" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="mobile" class="form-label">Mobile *</label>
+                            <input type="number" class="form-control" name="address[mobile]" id="mobile" value="<%= address.mobile %>" onKeyPress="if(this.value.length==10) return false;" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label">Phone (Optional)</label>
+                            <input type="number" class="form-control" name="address[phone]" value="<%= address.phone %>" onKeyPress="if(this.value.length==10) return false;" id="phone">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3">
+                            <label for="firstline" class="form-label">Flat, House no., Building, Company,
+                                Apartment *</label>
+                            <input type="text" class="form-control" name="address[firstline]" id="firstline" value="<%= address.firstline %>" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3">
+                            <label for="secondline" class="form-label">Area, Street, Sector, Village
+                                *</label>
+                            <input type="text" class="form-control" name="address[secondline]" id="secondline" value="<%= address.secondline %>" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3">
+                            <label for="landmark" class="form-label">Landmark *</label>
+                            <input type="text" class="form-control" name="address[landmark]" id="landmark" value="<%= address.landmark %>" required>
+                        </div>
+
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="city" class="form-label">City *</label>
+                            <input type="text" class="form-control" name="address[city]" id="city" value="<%= address.city %>" required>
+
+                        </div>
+                        <div class="col-md-6">
+                            <label for="pincode" class="form-label">Pincode *</label>
+                            <input type="number" class="form-control" name="address[pincode]" id="pincode" min="600000" max="660000" value="<%= address.pincode %>" onKeyPress="if(this.value.length==6) return false;" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3">
+                            <label for="state" class="form-label">State *</label>
+                            <select name="address[state]" id="state" class="form-select" required>
+                                <option value="">Select State</option>
+                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                <option value="Assam">Assam</option>
+                                <option value="Bihar">Bihar</option>
+                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                <option value="Goa">Goa</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Haryana">Haryana</option>
+                                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                <option value="Jharkhand">Jharkhand</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Kerala">Kerala</option>
+                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                <option value="Manipur">Manipur</option>
+                                <option value="Meghalaya">Meghalaya</option>
+                                <option value="Mizoram">Mizoram</option>
+                                <option value="Nagaland">Nagaland</option>
+                                <option value="Odisha">Odisha</option>
+                                <option value="Punjab">Punjab</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Sikkim">Sikkim</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Telangana">Telangana</option>
+                                <option value="Tripura">Tripura</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="Uttarakhand">Uttarakhand</option>
+                                <option value="Gairsain">Gairsain</option>
+                                <option value="West Bengal">West Bengal</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary w-100 rounded-pill">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,32 @@
+<% layout("layouts/boilerplate") %>
+
+    <div class="row">
+        <div class="col-3">
+            <%- include("../partials/usernav") %>
+        </div>
+        <div class="col-9">
+            <div class="card bg-white shadow-sm border-0 p-3">
+                <h1 class="fs-4 text-primary">My Reviews</h1>
+                <% for(let review of reviews) { %> 
+                    <div class="card p-3 bg-light mb-3">
+                        <div class="row">
+                            <div class="col-2">
+                                <img style="max-height: 100px;" src="<%= review.product.images[0].url %>" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-4">
+                                <h5 class="card-title mb-0"><a href="/product/<%= review.product._id %>" style="text-decoration:none;"><%= review.product.name %></a></h5>
+                                <p class="my-0">Rating : <% for(let ind = 1; ind <= 5; ind++){ %> 
+                                    <span class="fa fa-star <%= ind <= review.rating?"checked":"" %>"></span>
+                                    <% } %> </p> 
+                                <p>Review: <%= review.body %> </p>
+                            </div>
+                            <div class="col d-flex flex-row-reverse">
+                                <a href="/product/<%= review.product._id %>" ><button class="btn btn-primary rounded-pill">View Review</button></a>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <% } %> 
+            </div>
+        </div>
+    </div>

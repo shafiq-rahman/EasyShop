@@ -1,0 +1,166 @@
+<% layout("layouts/boilerplate") %> 
+
+<div class="row">
+    <div class="col-9">
+            <div class="rounded p-2 bg-white shadow-sm">
+            <div class="ms-2 bg-primary rounded-circle p-3 shadow-sm d-inline-block" style="width: fit-content;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-phone" viewBox="0 0 16 16">
+                    <%- category.svg %> 
+                </svg>
+            </div>
+            <h1 class="fs-4 d-inline ms-2">All <span class="category-name"><%= category.name %></span></h1>
+            <div class="p-2 mt-1">
+                <input type="text" name="search" id="search" placeholder="Search products" onkeyup="retrieveData(this)" class="form-control">
+            </div>
+            <div class="row p-2 allProducts">
+                <% for(let product of products) { %>
+                    <div class="col-md-3 mb-3 product-item <%= product.quantity>0?"":"out" %>">
+                        <div class="card bg-light product-list">
+                            <a href="/product/<%= product.id %>" class="product-card">
+                            <img class="card-img-top p-2" src="<%= product.images[0].url %>" alt="Card image cap">
+                            <div class="card-body pt-0">
+                                <div class="rating text-center">
+                                    <% for(let ind = 1; ind <= 5; ind++){ %> 
+                                      <span class="fa fa-star <%= ind <= product.rating?"checked":"text-secondary" %>"></span>
+                                      <% } %> 
+                                </div>
+                                <h5 class="card-title fs-6 mb-0">
+                                    <%= product.name %>
+                                </h5>
+                                <p class="card-text fs-5 mb-0"><span class="material-icons fs-5 m-0 p-0">
+                                    currency_rupee
+                                  </span>
+                                    <%= product.price.toLocaleString("en-IN") %>
+                                </p>
+                                <form action="/addcart/<%= product.id %>" class="mt-1" method="post">
+                                    <button class="btn btn-primary btn-sm rounded-pill w-100">Add to Cart</button>
+                                </form>
+                            </div>
+                        </a>
+                        </div>
+                    </div>
+                <% } %>
+               
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="rounded p-2 bg-white shadow-sm">
+            <h1 class="fs-4 bg-primary rounded ps-1 py-1 text-white">Filter</h1>
+            <div class="order">
+                <h2 class="fs-5">Brand</h2>
+                <a href="/category/<%= category.name %>" style="text-decoration: none;">Clear</a>
+            </div>
+            <form action="/category/<%= category.name %>" id="filterForm" method="get">
+                <% for(let brand of brands) { %>
+                    <div class="form-check">
+                        <input class="form-check-input brand" type="checkbox" name="brand" id="<%= brand %>" value="<%= brand %>">
+                        <label class="form-check-label" for="<%= brand %>" ><%= brand %> </label>
+                    </div>
+                <% } %>              
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const category = document.querySelector(".category-name").textContent
+    const allProducts = document.querySelector(".allProducts")
+    function retrieveData(ele) {
+        fetch(`/category/${category}/search?term=${ele.value}`)
+        .then(res => res.json())
+        .then(data => {
+            let products = data.products
+            if(products.length < 1){
+                console.log("yes")
+                allProducts.innerHTML = "<p class='fs-4'>Sorry. Nothing found</p>"
+            }
+            allProducts.innerHTML = ""
+            products.forEach((product,index) => {
+                var index = 1
+                allProducts.innerHTML += 
+                `<div class=\"col-md-3 mb-3 product-item ${product.quantity==0?'out':''} \">
+                        <div class=\"card bg-light product-list\">
+                            <a href=\"/product/${product._id}\" class=\"product-card\">
+                            <img class=\"card-img-top p-2\" src=\"${product.images[0].url}\" alt=\"Card image cap\">
+                            <div class=\"card-body pt-0\">
+                                <div class=\"rating text-center\">
+                                    <% for(let ind = 1; ind <= 5; ind++){ %> 
+                                      <span class=\"fa fa-star  ${index <= product.rating?'checked':'text-secondary'}\"></span>
+                                      <span class=\"d-none\">${index++}</span>
+                                      <% } %> 
+                                </div>
+                                <h5 class=\"card-title fs-6 mb-0\">
+                                    ${product.name}
+                                </h5>
+                                <p class=\"card-text fs-5 mb-0\"><span class=\"material-icons fs-5 m-0 p-0\">
+                                    currency_rupee
+                                  </span>
+                                   ${product.price.toLocaleString("en-IN")}
+                                </p>
+                                <form action=\"/addcart/${ product._id}\" class=\"mt-1\" method=\"post\">
+                                    <button class=\"btn btn-primary btn-sm rounded-pill w-100\">Add to Cart</button>
+                                </form>
+                            </div>
+                        </a>
+                        </div>
+                    </div>`
+            })
+        })
+    }
+
+$(document).ready(function(){
+    $("#filterForm").on("change", "input:checkbox", function(){
+        var checked = []
+        $("input:checkbox[name=brand]:checked").each(function(){
+            checked.push($(this).val());
+        });
+        if(checked.length) {
+            var query = ""
+            checked.forEach((value,index) => query+= value + (index < checked.length - 1?",":""))
+            fetch(`/category/${category}?brand=${query}`)
+                .then(res => res.json())
+                .then(data => {
+                    let products = data.products
+                    if(products.length < 1){
+                        console.log("yes")
+                        allProducts.innerHTML = "<p class='fs-4'>Sorry. Nothing found</p>"
+                    }
+                    allProducts.innerHTML = ""
+                    products.forEach((product,index) => {
+                        var index = 1
+                        allProducts.innerHTML += 
+                        `<div class=\"col-md-3 mb-3 product-item ${product.quantity==0?'out':''} \">
+                                <div class=\"card bg-light product-list\">
+                                    <a href=\"/product/${product._id}\" class=\"product-card\">
+                                    <img class=\"card-img-top p-2\" src=\"${product.images[0].url}\" alt=\"Card image cap\">
+                                    <div class=\"card-body pt-0\">
+                                        <div class=\"rating text-center\">
+                                            <% for(let ind = 1; ind <= 5; ind++){ %> 
+                                            <span class=\"fa fa-star  ${index <= product.rating?'checked':'text-secondary'}\"></span>
+                                            <span class=\"d-none\">${index++}</span>
+                                            <% } %> 
+                                        </div>
+                                        <h5 class=\"card-title fs-6 mb-0\">
+                                            ${product.name}
+                                        </h5>
+                                        <p class=\"card-text fs-5 mb-0\"><span class=\"material-icons fs-5 m-0 p-0\">
+                                            currency_rupee
+                                        </span>
+                                        ${product.price.toLocaleString("en-IN")}
+                                        </p>
+                                        <form action=\"/addcart/${ product._id}\" class=\"mt-1\" method=\"post\">
+                                            <button class=\"btn btn-primary btn-sm rounded-pill w-100\">Add to Cart</button>
+                                        </form>
+                                    </div>
+                                </a>
+                                </div>
+                            </div>`
+                    })
+                })
+        }else {
+            location.reload()
+        }     
+    });
+});
+</script>
